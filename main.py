@@ -51,7 +51,6 @@ class GameScene(QGraphicsScene):
             y = random.randint(0, 2000)
             self.stars.append((x,y))
 
-
     def drawBackground(self, painter, rect):
         painter.setPen(Qt.white)
         for coord in self.stars:
@@ -87,7 +86,7 @@ class GameView(QGraphicsView):
         self.ship.moveForward(2)
 
     def firingSequence(self):
-        particle = VanishingParticle(self.ship.boundingRect().center(), self.ship.orientation)
+        particle = CollidingParticle(self.ship.boundingRect().center(), self.ship.orientation)
         self.scene.addItem(particle)
 
     def timerEvent(self, event):
@@ -115,7 +114,7 @@ class Ship(QGraphicsItem):
 
     def __init__(self, location):
         QGraphicsItem.__init__(self)
-        self.icon = 'C:/Users/hiepa/Documents/Meta/Koodeja/test/battleship.svg'
+        self.icon = 'battleship.svg'
         self.coords = location
         self.speed = 0
         self.width = 50
@@ -187,7 +186,7 @@ class Planet(QGraphicsItem):
         painter.drawImage(target, QImage(self.icon))
 
 
-class VanishingParticle(QGraphicsItem):
+class CollidingParticle(QGraphicsItem):
     def __init__(self, origin, direction):
         QGraphicsItem.__init__(self)
         self.coords = origin
@@ -219,6 +218,12 @@ class VanishingParticle(QGraphicsItem):
         #print(x, y)
         self.coords -= QPointF(0, r)
         #print(self.coords)
+
+        colliding = self.collidingItems()
+        for item in colliding:
+            if isinstance(item, Ship):
+                self.scene().removeItem(item)
+                self.lifetime = 0
 
     def boundingRect(self):
         x, y = self.coords.x(), self.coords.y()
