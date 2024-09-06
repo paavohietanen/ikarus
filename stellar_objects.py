@@ -11,12 +11,12 @@ stellar_obj_graphics = [
 ]
 
 class StellarObject(QGraphicsItem):
-    def __init__(self):
+    def __init__(self, x, y, width, height):
         QGraphicsItem.__init__(self)
         self.icon = random.choice(stellar_obj_graphics)
-        self.coords = [100, 80]
-        self.width = 200
-        self.height = 200
+        self.coords = [x, y]
+        self.width = width
+        self.height = height
 
     def boundingRect(self):
         x, y = self.coords

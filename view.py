@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QGraphicsView, QGraphicsScene
 from PyQt5.QtCore import Qt, QBasicTimer
 from timeit import default_timer as timer
 from ship import CollidingParticle, Ship
+from stellar_objects import StellarObject
 import random
 import keyboard
 
@@ -11,6 +12,7 @@ class GameScene(QGraphicsScene):
         self.generated = False
         self.stars = []
         self.initStars()
+        self.initStellarObjects()
 
     def initStars(self):
         for _ in range(0, 10000):
@@ -18,11 +20,21 @@ class GameScene(QGraphicsScene):
             y = random.randint(0, 2000)
             self.stars.append((x,y))
 
+    def initStellarObjects(self):
+        for _ in range(0, 3):
+            x = random.randint(0, 2000)
+            y = random.randint(0, 2000)
+            # We will only generate square objects for now
+            side = random.randint(100, 200)
+            stellar_obj = StellarObject(x, y, side, side)
+            self.addItem(stellar_obj)
+
     def drawBackground(self, painter, rect):
         painter.setPen(Qt.white)
         for coord in self.stars:
             x, y = coord
             painter.drawPoint(x, y)
+
 
 class GameView(QGraphicsView):
 
@@ -70,6 +82,9 @@ class GameView(QGraphicsView):
                 self.ship.rotateShip(1)
             elif keyboard.is_pressed('left'):
                 self.ship.rotateShip(-1)
+
+            # This condition is to control firing rate
+            # firing_sequence will only be called once every 0.5 seconds
             if keyboard.is_pressed('space') and self.event_timestamp == None:
                 self.firingSequence()
                 self.event_timestamp = timer()

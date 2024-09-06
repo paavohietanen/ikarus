@@ -30,7 +30,6 @@ class GameWindow(QMainWindow):
     def initShip(self):
         self.ship = self.view.newShip()
         self.view.scene.addItem(self.ship)
-        self.view.scene.addItem(StellarObject())
 
         self.enemy_ship = self.view.newEnemy()
         self.view.scene.addItem(self.enemy_ship)
