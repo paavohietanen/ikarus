@@ -114,7 +114,7 @@ class Ship(QGraphicsItem):
 
     def __init__(self, location):
         QGraphicsItem.__init__(self)
-        self.icon = 'battleship.svg'
+        self.icon = 'graphics\\battleship.svg'
         self.coords = location
         self.speed = 0
         self.width = 50
@@ -168,10 +168,10 @@ class Ship(QGraphicsItem):
         self.orientation -= 360*(self.orientation // 360)
 
 
-class Planet(QGraphicsItem):
+class StellarObject(QGraphicsItem):
     def __init__(self):
         QGraphicsItem.__init__(self)
-        self.icon = 'C:\\Users\\35840\\Documents\\Personal\\Personal code\\ikarus\\11011135.png'
+        self.icon = 'C:\\Users\\35840\\Documents\\Personal\\Personal code\\ikarus\\graphics\\ruined_planet.png'
         self.coords = [100, 80]
         self.width = 200
         self.height = 200
