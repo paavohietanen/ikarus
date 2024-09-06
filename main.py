@@ -2,10 +2,10 @@ import keyboard
 import sys
 import random
 from conversions import polar_to_cart, transformed_rect_sides
-from PyQt5.QtCore import QBasicTimer, QTime, Qt, QRectF, QPointF
-from PyQt5.QtWidgets import QApplication, QDesktopWidget, QGraphicsRotation, QGraphicsView, QMainWindow, QWidget, QLabel, QScrollArea, QHBoxLayout, QVBoxLayout, QGridLayout, QPushButton, QFileDialog, QStyle, QToolTip, QCheckBox, QFrame, QSizePolicy, QScrollBar, QTabWidget, QPlainTextEdit, QGraphicsItem, QGraphicsScene
+from PyQt5.QtCore import QBasicTimer, Qt, QRectF, QPointF
+from PyQt5.QtWidgets import QApplication, QDesktopWidget, QGraphicsView, QMainWindow, QGraphicsItem, QGraphicsScene
 
-from PyQt5.QtGui import QIcon, QPainter, QPen, QBrush, QPixmap, QImage, QTransform
+from PyQt5.QtGui import QImage, QTransform
 from timeit import default_timer as timer
     
 class GameWindow(QMainWindow):
@@ -24,10 +24,10 @@ class GameWindow(QMainWindow):
 
     def initUI(self):
         self.setStyleSheet('background-color: black;')
-        self.left = self.screenSize.width() * 0.05
-        self.top = self.screenSize.height() * 0.05
-        self.width = self.screenSize.width() * 0.9
-        self.height = self.screenSize.height() * 0.9
+        self.left = self.screenSize.width() * 1
+        self.top = self.screenSize.height() * 1
+        self.width = self.screenSize.width() * 1
+        self.height = self.screenSize.height() * 1
         self.setGeometry(self.left, self.top, self.width, self.height)
 
     def initShip(self):
@@ -70,7 +70,7 @@ class GameView(QGraphicsView):
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.timer = QBasicTimer()
-        self.timer.start(0.001, self)
+        self.timer.start(1, self)
         self.event_timestamp = None
         self.generated = False
     
@@ -139,7 +139,7 @@ class Ship(QGraphicsItem):
         rotate_transform.rotate(self.orientation)
         painter.drawImage(target, QImage(self.icon).transformed(rotate_transform))
         painter.setPen(Qt.white)
-        painter.drawRect(x, y, rect_width, rect_height)
+        painter.drawRect(round(x), round(y), round(rect_width), round(rect_height))
 
     def moveForward(self, r):
         
@@ -171,10 +171,10 @@ class Ship(QGraphicsItem):
 class Planet(QGraphicsItem):
     def __init__(self):
         QGraphicsItem.__init__(self)
-        self.icon = 'C:/Users/hiepa/Documents/Meta/Koodeja/test/ikoni_punainen_kypara (ID 1395).png'
-        self.coords = [0, 0]
-        self.width = 50
-        self.height = 50
+        self.icon = 'C:\\Users\\35840\\Documents\\Personal\\Personal code\\ikarus\\11011135.png'
+        self.coords = [100, 80]
+        self.width = 200
+        self.height = 200
 
     def boundingRect(self):
         x, y = self.coords
@@ -235,7 +235,7 @@ class CollidingParticle(QGraphicsItem):
             target = QRectF(x, y, self.width, self.height)
             painter.setPen(Qt.red)
             painter.setBrush(Qt.white)
-            painter.drawRect(x, y, self.width, self.height)
+            painter.drawRect(round(x), round(y), round(self.width), round(self.height))
             self.moveForward(50)
             self.lifetime -= 1
 
